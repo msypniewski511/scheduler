@@ -1,0 +1,9 @@
+.row.justify-content-md-center  
+  .col-6.border.mt-5
+    %h1 Editing event
+
+    = render 'form'
+
+    = link_to 'Show', @event
+    \|
+    = link_to 'Back', events_path

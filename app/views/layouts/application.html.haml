@@ -7,5 +7,54 @@
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    / With locals
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"}
+    / Without locals
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"}
+    = javascript_pack_tag 'tavo-calendar'
+
   %body
-    = yield
+    .container.mt-5
+    .wraper
+      %header#page_header
+      
+        .nav-group-logo
+          .cos.mr-3 MyCalendar
+          .cos.mr-3= link_to 'Events', events_path
+        .col.nav-group
+          .text-right
+            - if current_user
+            
+              = current_user.email
+              = link_to "Logout", destroy_user_session_path, method: :delete
+            - else
+              .cos.mr-3= link_to "Login", new_user_session_path
+              .cos.mr-3= link_to "SignUp", new_user_registration_path
+      %main
+        %aside#left_sidebar
+          .upper
+            %h5= Time.now.strftime("%A")
+            %h1= Date.today.day
+            %h5.mb-5= Time.now.strftime("%B")
+            %hr/
+          .bottom.mb-5
+            - if current_user
+              = image_tag avatar_url(current_user), class: 'mb-3 mt-5'
+              = current_user.email
+          %hr/
+            
+        %section#main
+          = yield
+        %section#right_sidebar
+          .upper
+            #my-calendar
+            %hr/
+          .bottom
+            %p Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat recusandae doloremque, maiores nulla ut, iusto tempore veniam dolores ex commodi illo eius nihil. Quisquam, possimus aliquid odio provident itaque magnam!
+           
+%script
+  new TavoCalendar('#my-calendar', {
+  date: Date.now().to_s,
+  selected: ['2020-03-20', '2020-03-21'],
+  highlight_saturday: true
+  })

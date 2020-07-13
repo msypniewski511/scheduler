@@ -2090,6 +2090,11 @@ cached-path-relative@^1.0.0:
   resolved "https://registry.npm.taobao.org/cached-path-relative/download/cached-path-relative-1.0.2.tgz#a13df4196d26776220cc3356eb147a52dba2c6db"
   integrity sha1-oT30GW0md2IgzDNW6xR6Utuixts=
 
+calendar-base@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/calendar-base/download/calendar-base-1.1.1.tgz#4e26e25592c580ec6dd943e84718151047a2fa3d"
+  integrity sha1-TibiVZLFgOxt2UPoRxgVEEei+j0=
+
 caller-callsite@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/caller-callsite/download/caller-callsite-2.0.0.tgz#847e0fce0a223750a9a027c54b33731ad3154134"

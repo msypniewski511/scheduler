@@ -1,0 +1,38 @@
+%p#notice= notice
+.card.border-primary.mb-3
+  .card-header.bg-transparent.border-ptrimary
+    %p
+      %b Start time:
+      = l @event.start_time, :format => :date_format if @event.start_time
+    %p
+      %b End time:
+      = l @event.end_time, :format => :date_format if @event.end_time
+  .card-body.text-primary
+    %h5.card-title= @event.title
+    .card-text
+      %p
+        %b Location:
+        %br/
+        = @event.location
+      %p
+        %b Agenda:
+        %br/
+        = @event.agenda
+      %p
+        %b Address:
+        %br/
+        = @event.address
+      %p
+        %label Organized by:
+        %br/
+        = image_tag avatar_url(@event_owners)
+        %br/
+        = @event_owners.email
+        = link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-success btn-small"
+  .card-footer.bg-transparent.border-primary
+    = link_to 'Back', events_path, class: 'btn btn-info'
+   
+    \|
+    = link_to 'Edit', edit_event_path(@event), class: 'btn btn-primary'
+    \|
+    = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
