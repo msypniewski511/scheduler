@@ -1,17 +1,65 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :accept_request, :reject_request]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :join]
   before_action :event_owner!, only: [:edit,:update,:destroy]
+  respond_to :html, :json
+
+  def accept_request
+    @attendance = Attendance.find_by(id: params[:attendance_id]) rescue nil
+    @attendance.accept!
+    'Applicant Accepted' if @attendance.save
+    respond_to do |format|
+      if @attendance.save
+        format.html { redirect_to(@event, :notice => 'Applicant Accepted') }
+        format.xml  { head :ok }
+      else
+        format.html { redirect_to(events_path, :notice => 'Something has gone wrong , please try again.') }
+        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+      end
+    end
+end
+def reject_request
+  @attendance = Attendance.find_by(id: params[:attendance_id]) rescue nil
+  
+  # 'Applicant Rejected' if @attendance.save
+  respond_to do |format|
+    if @attendance.reject!
+      format.html { redirect_to(@event, :notice => 'Applicant Rejected') }
+      format.xml  { head :ok }
+    else
+      format.html { redirect_to(events_path, :notice => 'Something has gone wrong , please try again.') }
+      format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+    end
+  end
+  end
+
   # GET /events
   # GET /events.json
   def index
     @events = Event.all
+    @dates = Event.pluck(:start_time).map {|a| a.strftime("%Y-%m-%d") unless a==nil}
+  end
+
+  def my_events
+    @events = Event.show_accepted_attendees(current_user.id)
+  end
+
+  def dates
+    @dates = Event.pluck(:start_time).map {|a| a.strftime("%Y-%m-%d") unless a==nil}
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render xml: @dates }
+      format.json { render json: @dates }
+    end
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
-    @event_owners = User.where(id: @event.organizer_id).first
+    # @event_owner = User.where(id: @event.organizer_id).first
+    @event_owner = User.where(id: @event.organizer_id).first
+    @pending_requests = Attendance.pending.where(event_id: @event.id)
+    @attendees = Attendance.accepted.where(event_id: @event.id)
   end
 
   # GET /events/new
@@ -66,19 +114,24 @@ class EventsController < ApplicationController
   def join
     @attendance = Attendance.join_event(current_user.id, params[:event_id], 'request_sent')
     'Request Sent' if @attendance.save
-    # respond_with @attendance
-    redirect_to events_url
+    
+    respond_to do |format|
+      format.html { redirect_to events_url, notice: 'Request Sent.' }
+      format.json { head :no_content, respond_with: @attendance }
+    end
+    # redirect_to events_url
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @event = params[:event_id] ? Event.friendly.find(params[:event_id]) : Event.friendly.find(params[:id])
+      @dates = Event.pluck(:start_time).map {|a| a.strftime("%Y-%m-%d") unless a==nil}
     end
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :start_time, :end_time, :location, :agenda, :address, :organizer_id)
+      params.require(:event).permit(:title, :start_time, :end_time, :location, :agenda, :address, :all_tags, :organizer_id)
     end
 
     def event_owner!
@@ -88,4 +141,13 @@ class EventsController < ApplicationController
         flash[:notice] = 'You do not have enough ermissions to do this'
       end
     end
+
+    def respond_with(attendance)
+          
+    respond_to do |format|
+        format.html { redirect_to(@event, :notice => 'Rejected Applicant') }
+        format.xml  { head :ok }
+    end
+  end
+
 end

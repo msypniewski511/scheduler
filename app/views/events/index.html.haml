@@ -14,9 +14,10 @@
   - @events.each do |event|
     
     .card.border-primary.mb-3
-      %h5.card-header= event.title
+      %h5.card-header.bg-info.text-white= event.title
       .card-body.text-primary
-        %h5.card-title= l event.start_time, :format => :date_format
+        %h5.card-title
+          .start_time= event.start_time ? "#{l event.start_time, :format => :date_format}" : {}
         %p= event.location
         = link_to 'Show Details', event, class: 'btn btn-outline-primary btn-sm'
 

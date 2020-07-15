@@ -24,6 +24,10 @@
   .form-group
     = f.label :address
     = f.text_area :address, class: 'form-control'
+  .fom-group
+    - :all_tags
+    = f.label :all_tags, "List All Tags, separate each tag by a comma"
+    = f.text_field :all_tags
   -# .field
   -#   = f.label :organizer_id
   -#   = f.number_field :organizer_id

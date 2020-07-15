@@ -1,0 +1,29 @@
+
+@import "node_modules/bootstrap/scss/bootstrap";
+@import './main1.scss';
+
+// @bg-r: linear-gradient(to right, #883af5 0%, #3d5afe 20%, #448aff 100%);
+
+
+:root {
+  --main-bg-linear: linear-gradient(to right, #883af5 30%, #3d5afe 70%, #448aff 100%);
+  --box-shadow-light: 5px 10px 10px 0px rgba(0, 0, 0, .3);
+}
+
+@box-shadow-light: var(--box-shadow-light);
+
+.bg-linear {
+  background-color: var(--main-bg-linear);
+}
+
+
+.btn-particular {
+  background-image: var(--main-bg-linear);
+  color: white;
+
+  transition: .5s all ease;
+  &:hover {
+    color: white;
+    box-shadow: var(--box-shadow-light);
+  }
+}

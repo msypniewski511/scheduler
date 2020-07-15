@@ -101,10 +101,10 @@
   .tavo-calendar__day_select span {
     background-color: unset; }
   .tavo-calendar__day_select span {
-    background-color: lightblue;
+    background-color: rgb(26, 159, 204);
     border-radius: unset; }
   .tavo-calendar__day_select day:hover {
-    background-color: lightblue; }
+    background-color: rgb(97, 209, 247); }
   .tavo-calendar__day_range-select {
     background-color: lightblue; }
   .tavo-calendar__day_select-lock {

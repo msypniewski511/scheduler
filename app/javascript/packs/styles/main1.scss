@@ -1,0 +1,107 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+body {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(rgb(23, 162, 184) , rgb(32, 201, 151));
+}
+.wraper {
+  background: whitesmoke;
+  max-width: 80%;
+  margin: auto;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  #page_header {
+    color: white!important;
+    // background-image: linear-gradient(to right, #883af5 0%, #3d5afe 20%, #448aff 100%);
+    // background: linear-gradient(to right, #233fdd 10%, #448aff 20%, #3071e0 100%) !important;
+    background: var(--main-bg-linear);
+    // background: linear-gradient(to right, #448aff 0%, #3d5afe 20%, #448aff 100%) !important;
+    padding: .3rem;
+    height: 3rem;
+    box-shadow: 5px 10px 10px rgba(22, 21, 21, 0.2);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .nav-group-logo {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}
+
+main {
+  height: 82vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+
+
+aside#left_sidebar {
+  background-color: rgba(0,0,0, .001);
+  padding: 3rem 1rem;
+  width: 20%;
+  box-shadow: 5px 2px 5px 1px rgba(0,0,0,.3);
+  z-index: 5;
+}
+
+section#main{
+  width: 50%;
+  height: 100%;
+
+  padding: 3rem 1rem;
+  // box-shadow: 10px 3px 5px -8px rgba(0, 0, 0, 0.3);
+  box-shadow: 5px 2px 5px 1px rgba(0,0,0,.3);
+  z-index: 1;
+  .overflow-auto {
+    max-height: 90%;
+    overflow: auto;
+  }
+}
+
+
+section#right_sidebar {
+
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  // background: GAINSBORO;
+  background-color: #17a2b842;
+
+
+  .upper, .bottom {
+    p {
+      color: #f8f9fa;
+    }
+    padding: 3rem 3rem;
+    height: 50%;
+  }
+  .upper {
+    height: 50%;
+    // box-shadow: 5px 21px 24px -14px rgba(0,0,0,0.67);
+  }
+
+  #my-calendar {
+    max-width: 100%;
+    margin: auto;
+    font-size: 1.5rem;
+    margin-bottom: 5rem;
+}
+}
+
+.text-right {
+  text-align: right;
+}
+
+

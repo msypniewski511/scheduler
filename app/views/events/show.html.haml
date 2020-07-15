@@ -1,38 +1,73 @@
 %p#notice= notice
-.card.border-primary.mb-3
-  .card-header.bg-transparent.border-ptrimary
+.card.mb-3.overflow-auto
+  .card-header.bg-transparent
     %p
       %b Start time:
       = l @event.start_time, :format => :date_format if @event.start_time
-    %p
-      %b End time:
+      %b.pull-right End time:
       = l @event.end_time, :format => :date_format if @event.end_time
   .card-body.text-primary
     %h5.card-title= @event.title
     .card-text
+      %ul.collection
+        %li.collection-item.avatar
+          %span.title Location:
+          %br/
+          = @event.location
+          %a.secondary-content(href="#")
+            %i.material-icons grade
+        %li.collection-item.avatar
+          %b Agenda:
+          %br/
+          = @event.agenda
+        %li.collection-item.avatar
+          %b Address:
+          %br/
+          = @event.address
+        %li.collection-item.avatar
+          %b Organized by:
+          .media.mb-3
+            = image_tag avatar_url(@event_owner), class: 'mr-3'
+            .media-body.align-self-center
+              .mt-0.mb-1= @event_owner.email
       %p
-        %b Location:
-        %br/
-        = @event.location
+        %b 
+          Tags:
+        = raw @event.tags.map(&:name).map { |t| t }.join(', ')
       %p
-        %b Agenda:
-        %br/
-        = @event.agenda
-      %p
-        %b Address:
-        %br/
-        = @event.address
-      %p
-        %label Organized by:
-        %br/
-        = image_tag avatar_url(@event_owners)
-        %br/
-        = @event_owners.email
-        = link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-success btn-small"
-  .card-footer.bg-transparent.border-primary
-    = link_to 'Back', events_path, class: 'btn btn-info'
-   
-    \|
-    = link_to 'Edit', edit_event_path(@event), class: 'btn btn-primary'
-    \|
-    = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+        = link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-particular btn-small btn-block"
+
+        %hr/
+        - if user_signed_in? && @event.organizer_id == current_user.id
+          .cos
+            %b 
+              Join Requests
+              %span.badge.badge-secondary= @pending_requests.size
+            %br/
+            - if @pending_requests.present?
+              %ul.list-unstyled
+                - @pending_requests.each do |p|
+                  %li.media.mb-3
+                    = image_tag avatar_url(p.user), class: 'mr-3'
+                    .media-body.align-self-center
+                      .mt-0.mb-1= p.user.email
+                      = link_to 'Accept', event_accept_request_path(:event_id => @event.id, :attendance_id => p.id), :class=>"btn btn-success btn-small"
+                      = link_to 'Reject', event_reject_request_path(:event_id => @event.id, :attendance_id => p.id), :class=>"btn btn-danger btn-small"
+            - else
+              %b No Pending Requests for this event
+          %hr/
+          
+          %ul.list-unstyled.mb-3
+            %b 
+              Attendees
+              %span.badge.badge-secondary=  @attendees.size
+            - @attendees.each do |a|
+              %li.media.mb-3.mt-3
+                = image_tag avatar_url(a.user), class: 'mr-3'
+                .media-body.align-self-center
+                  = a.user.email
+%hr/
+.btn-group 
+  = link_to 'Back', events_path, class: 'btn btn-particular'
+  = link_to 'Edit', edit_event_path(@event), class: 'btn tag-item'
+  = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-particular'

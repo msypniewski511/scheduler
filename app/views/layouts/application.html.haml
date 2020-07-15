@@ -15,6 +15,7 @@
 
   %body
     .container.mt-5
+    
     .wraper
       %header#page_header
       
@@ -30,31 +31,53 @@
             - else
               .cos.mr-3= link_to "Login", new_user_session_path
               .cos.mr-3= link_to "SignUp", new_user_registration_path
+      
       %main
         %aside#left_sidebar
           .upper
-            %h5= Time.now.strftime("%A")
-            %h1= Date.today.day
-            %h5.mb-5= Time.now.strftime("%B")
+            %h3.text-muted= Time.now.strftime("%A")
+            %h1= "#{Time.now.strftime("%d %B")}"
+            %h5.text-muted.mb-5= Time.now.strftime("%Y")
             %hr/
           .bottom.mb-5
             - if current_user
-              = image_tag avatar_url(current_user), class: 'mb-3 mt-5'
-              = current_user.email
+              = image_tag avatar_url(current_user), class: 'mb-3 mt-5 zdjecie'
+              .align-self-center= current_user.email
           %hr/
-            
+          .widget-main.mt-5
+            %h4.widget-title TAG CLOUD
+            -# .line-bottom.text-muted.hrader-title TAG CLOUD   
+            - Tag.all.each do |tag|
+              .tag-item
+                = tag.name
+                .badge.badge-light.text-sm= tag.id
+
+        -#  Czesc glowna
         %section#main
           = yield
         %section#right_sidebar
-          .upper
+          .upper#dupa{value: "#{@dates}"}
             #my-calendar
             %hr/
           .bottom
             %p Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat recusandae doloremque, maiores nulla ut, iusto tempore veniam dolores ex commodi illo eius nihil. Quisquam, possimus aliquid odio provident itaque magnam!
-           
+       
 %script
+  fetch('http://localhost:5100/dates.json').then(
+  function(response) {
+  if (response.status !== 200) {
+  console.log('Looks like there was a problem. Status Code: ' +
+  response.status);
+  return;
+  }
+  response.json().then(function(data) {
+  let date = data;
+
   new TavoCalendar('#my-calendar', {
-  date: Date.now().to_s,
-  selected: ['2020-03-20', '2020-03-21'],
-  highlight_saturday: true
-  })
+  selected: date
+  });
+  });
+  }
+  ).catch(function(err) {
+  console.log('Fetch Error :-S', err);
+  });
