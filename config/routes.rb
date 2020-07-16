@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
 
   get :dates, to: 'events#dates'
+  get 'tags/:tag', to: 'events#index', as: :tag
 
   root 'main#index'
   devise_for :users

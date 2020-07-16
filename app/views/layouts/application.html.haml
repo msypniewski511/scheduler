@@ -49,8 +49,8 @@
             -# .line-bottom.text-muted.hrader-title TAG CLOUD   
             - Tag.all.each do |tag|
               .tag-item
-                = tag.name
-                .badge.badge-light.text-sm= tag.id
+                = link_to tag.name, tag_path(tag.name)
+                .badge.badge-light.text-sm= tag.events.size
 
         -#  Czesc glowna
         %section#main

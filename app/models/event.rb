@@ -19,6 +19,13 @@ class Event < ApplicationRecord
     tags.map(&:name).join(", ")
   end
 
+  def self.tag_counts
+    Tag.select("tags.name, count(taggings.tag_id) as count").joins(:taggings).group("taggings.tag_id, tags.id, tags.name")
+    # Tag.select("tags.id, tags.name,count(taggings.tag_id) as count").except(name: exclude).joins(:taggings).group("taggings.tag_id, tags.id, tags.name").order("count DESC").limit(5)
+  end
+
+  
+
   def self.event_owner(organizer_id)
     User.find_by id: organizer_id
   end
@@ -34,5 +41,7 @@ class Event < ApplicationRecord
     Event.where(organizer_id: organizer_id)
   end
 
-  
+  def self.tagged_with(name)
+    Tag.find_by_name!(name).events
+  end
 end

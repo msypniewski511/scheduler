@@ -42,6 +42,10 @@
         %li.list-group-item.flex-column.align-items-start.mb-3
           %b Tags:
           = raw @event.tags.map(&:name).map { |t| t }.join(', ')
+          %br/
+          = @event.all_tags.split(', ').map { |t| link_to t,  tag_path(t) }.join(', ').html_safe
+          - tag_cloud Event.tag_counts, %w{css1 css2 css3 css4} do |tag, css_class|
+            = link_to tag.name, tag_path(tag.name), class: css_class
       
       %p
         = link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-particular btn-small btn-block"

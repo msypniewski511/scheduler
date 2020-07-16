@@ -36,7 +36,11 @@ def reject_request
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    if params[:tag]
+      @events = Event.tagged_with(params[:tag])
+    else
+      @events = Event.all
+    end
     @dates = Event.pluck(:start_time).map {|a| a.strftime("%Y-%m-%d") unless a==nil}
   end
 
