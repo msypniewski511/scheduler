@@ -1,6 +1,6 @@
-
 @import "node_modules/bootstrap/scss/bootstrap";
 @import './main1.scss';
+@import './components.scss';
 
 // @bg-r: linear-gradient(to right, #883af5 0%, #3d5afe 20%, #448aff 100%);
 
@@ -8,9 +8,14 @@
 :root {
   --main-bg-linear: linear-gradient(to right, #883af5 30%, #3d5afe 70%, #448aff 100%);
   --box-shadow-light: 5px 10px 10px 0px rgba(0, 0, 0, .3);
+  --box-shadow-light-1: 2px 2px 10px -5px rgba(0, 0, 0, .4);
 }
 
 @box-shadow-light: var(--box-shadow-light);
+
+.shadow-l-1 {
+  box-shadow: var(--box-shadow-light-1);
+}
 
 .bg-linear {
   background-color: var(--main-bg-linear);
@@ -26,4 +31,11 @@
     color: white;
     box-shadow: var(--box-shadow-light);
   }
+}
+.card {
+  border: none !important;
+}
+
+.card-footer {
+  border-top: none !important;
 }

@@ -1,39 +1,48 @@
+%h4.block-title Event Details
 %p#notice= notice
 .card.mb-3.overflow-auto
   .card-header.bg-transparent
-    %p
-      %b Start time:
-      = l @event.start_time, :format => :date_format if @event.start_time
-      %b.pull-right End time:
-      = l @event.end_time, :format => :date_format if @event.end_time
-  .card-body.text-primary
-    %h5.card-title= @event.title
+    %h5
+      %b Title: 
+      = @event.title
+    
+  .card-body
+    %h5.card-title
+      
+      
     .card-text
-      %ul.collection
-        %li.collection-item.avatar
-          %span.title Location:
-          %br/
+      %ul.list-group.list-group-flush
+        %li.list-group-item.d-flex.justify-content-between
+          %b 
+            Start time:
+            .text-muted= l @event.start_time, :format => :date_format if @event.start_time
+          %b
+            End time:
+            .text-muted= l @event.end_time, :format => :date_format if @event.end_time
+
+        %li.list-group-item.flex-column.align-items-start
+          %b.title Location: 
           = @event.location
           %a.secondary-content(href="#")
             %i.material-icons grade
-        %li.collection-item.avatar
+            = icon("star", class: "text-success")
+        %li.list-group-item.flex-column.align-items-start
           %b Agenda:
-          %br/
           = @event.agenda
-        %li.collection-item.avatar
+        %li.list-group-item.flex-column.align-items-start
           %b Address:
-          %br/
           = @event.address
-        %li.collection-item.avatar
-          %b Organized by:
-          .media.mb-3
+        %li.list-group-item.flex-column.align-items-start
+          .d-flex.w-100.justify-content-between
+            %b Organized by:
+          .media.mb-3.mt-3
             = image_tag avatar_url(@event_owner), class: 'mr-3'
             .media-body.align-self-center
               .mt-0.mb-1= @event_owner.email
-      %p
-        %b 
-          Tags:
-        = raw @event.tags.map(&:name).map { |t| t }.join(', ')
+        %li.list-group-item.flex-column.align-items-start.mb-3
+          %b Tags:
+          = raw @event.tags.map(&:name).map { |t| t }.join(', ')
+      
       %p
         = link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-particular btn-small btn-block"
 
@@ -66,8 +75,8 @@
                 = image_tag avatar_url(a.user), class: 'mr-3'
                 .media-body.align-self-center
                   = a.user.email
-%hr/
-.btn-group 
-  = link_to 'Back', events_path, class: 'btn btn-particular'
+
+.btn-group.mt-2
+  = link_to 'Back', events_path, class: 'btn tag-item'
   = link_to 'Edit', edit_event_path(@event), class: 'btn tag-item'
-  = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-particular'
+  = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn tag-item'

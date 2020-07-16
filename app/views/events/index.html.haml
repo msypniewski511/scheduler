@@ -1,4 +1,4 @@
-%h1.text-primary Events
+%h4.block-title Events
 -# %th Title
 -# %th Start time
 -# %th End time
@@ -10,32 +10,35 @@
 -# %th
 -# %th
 
-.overflow-auto.pr-3.card-columns
-  - @events.each do |event|
-    
-    .card.border-primary.mb-3
-      %h5.card-header.bg-info.text-white= event.title
-      .card-body.text-primary
-        %h5.card-title
-          .start_time= event.start_time ? "#{l event.start_time, :format => :date_format}" : {}
-        %p= event.location
-        = link_to 'Show Details', event, class: 'btn btn-outline-primary btn-sm'
+-# .pr-3.overflow-auto.card-columns
+.row.row-cols-1.row-cols-md-2
 
-    -# %tr
-    -#   %td= event.title
-    -#   %td= event.start_time
-    -#   %td= event.end_time
-    -#   %td= event.location
-    -#   %td= event.agenda
-    -#   %td= event.address
-    -#   %td= event.organizer_id
-    -#   %td= link_to 'Show', event
-    -#   %td= link_to 'Edit', edit_event_path(event)
-    -#   %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }
+  - @events.each do |event|
+    .col.mb-3
+      .card.h-100.border-transparent.box-shadow-sm
+        .card-body.justify-content-strech
+          %h5.widget-title
+            = event.title
+          %h6.start_time.card-subtitle= event.start_time ? "#{l event.start_time, :format => :date_format}" : {}
+          %p= event.location
+        .card-footer.bg-transparent.border-transparent
+          = link_to 'Show Details', event, class: 'btn-white shadow-l-1 mb-3'
+
+      -# %tr
+      -#   %td= event.title
+      -#   %td= event.start_time
+      -#   %td= event.end_time
+      -#   %td= event.location
+      -#   %td= event.agenda
+      -#   %td= event.address
+      -#   %td= event.organizer_id
+      -#   %td= link_to 'Show', event
+      -#   %td= link_to 'Edit', edit_event_path(event)
+      -#   %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Event', new_event_path, class: 'btn btn-success'
+= link_to 'New Event', new_event_path, class: 'btn btn-particular'
 
 
 
